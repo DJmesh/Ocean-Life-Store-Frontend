@@ -1,30 +1,20 @@
-"use client"
-import { useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import { useProducts } from "@/hooks/useProducts";
 import ProductCard from "@/components/lainding/product-card";
 
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-}
-
 export default function LandingPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const { products, loading, error } = useProducts();
 
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
-  }, []);
+  if (loading) return <p className="text-white text-center">Carregando produtos...</p>;
+  if (error) return <p className="text-red-500 text-center">Erro ao carregar os produtos: {error.message}</p>;
 
   return (
-    <div>
-      <h2 className="text-3xl font-bold mb-6">Produtos em Destaque</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
+    <div className="text-center text-white">
+      <h2 className="text-4xl font-bold mb-6">CATÁLOGOS</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {products.map((product: any) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
