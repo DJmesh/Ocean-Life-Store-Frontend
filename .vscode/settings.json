@@ -1,0 +1,8 @@
+{
+  "maven.terminal.customEnv": [
+    {
+      "environmentVariable": "NEXT_PUBLIC_API_URL",
+      "value": "http://localhost:8000"
+    }
+  ]
+}
