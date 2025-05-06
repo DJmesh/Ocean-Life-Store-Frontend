@@ -1,14 +1,16 @@
-// /lib/axios.ts
 import axios from "axios";
 
-const UNPROTECTED_ENDPOINTS = ["/api/token/", "/api/token/refresh/"];
+export const UNPROTECTED_ENDPOINTS = [
+  "/api/signup/",
+  "/api/signin/",
+  "/api/token/",
+  "/api/token/refresh/",
+];
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL, // Ex: "http://localhost:8000"
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers: { "Content-Type": "application/json" },
 });
 
 async function refreshToken() {
@@ -20,8 +22,6 @@ async function refreshToken() {
     throw new Error("Unable to refresh token");
   }
 }
-
-// Interceptor para atualizar o token automaticamente
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -46,5 +46,4 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
 export default api;
