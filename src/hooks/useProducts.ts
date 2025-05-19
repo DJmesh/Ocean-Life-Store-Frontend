@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
-import { getProducts } from "../services/productService";
+import { getProducts } from "@/services/productService";
+import { Product } from "@/lib/types/product";
 
 export function useProducts() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading]   = useState(true);
+  const [error, setError]       = useState<Error | null>(null);
 
   useEffect(() => {
     getProducts()
       .then((data) => {
-        setProducts(data);
+
+        const results = Array.isArray(data) ? data : data.results ?? [];
+        setProducts(results);
         setLoading(false);
       })
       .catch((err) => {
